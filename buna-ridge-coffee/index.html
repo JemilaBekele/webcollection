@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Buna Ridge Coffee Trading</title>
+<meta name="description" content="Ethiopian green coffee export and import services: Yirgacheffe, Sidama, Guji, Harrar, Limu and Jimma, shipped FOB Djibouti.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a roastery at night. Espresso-dark ground, coffee-cherry red for action, green-bean sage for data. Photos sit in frames that fall back to a roasted gradient if a photo can't load. */
+:root{
+  --bg:#17100c;          /* espresso */
+  --bg-2:#21170f;        /* roasted crema shadow */
+  --card:#2a1d14;
+  --fg:#f1e6d6;          /* parchment */
+  --muted:#bba892;
+  --line:#3d2c20;
+  --cherry:#d4483a;      /* ripe coffee cherry */
+  --cherry-fg:#fff5ee;
+  --bean:#a9bb8a;        /* green (unroasted) bean */
+  --gold:#d9a35b;        /* light roast */
+  --display:"Young Serif",Georgia,"Times New Roman",serif;
+  --body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --gl:max(16px, env(safe-area-inset-left, 0px));
+  --gr:max(16px, env(safe-area-inset-right, 0px));
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 16px/1.65 var(--body);overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+img{max-width:100%;display:block}
+[hidden]{display:none!important}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:1.05;text-wrap:balance}
+h2{font-size:clamp(2.1rem,4.6vw,3.4rem)}
+h3{font-size:1.45rem}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1200px;margin:0 auto;padding-left:var(--gl);padding-right:var(--gr)}
+.kicker{font:700 .74rem var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.btn{display:inline-flex;align-items:center;gap:.6em;font:700 .98rem var(--body);padding:.9em 1.5em;border-radius:999px;background:var(--cherry);color:var(--cherry-fg);border:1.5px solid var(--cherry);text-decoration:none;cursor:pointer;transition:transform .2s,background .2s}
+.btn:hover{transform:translateY(-2px);background:#e2584a}
+.btn .arr{transition:transform .25s}.btn:hover .arr{transform:translateX(4px)}
+.btn.line{background:transparent;color:var(--fg);border-color:color-mix(in srgb,var(--fg) 40%,transparent)}
+.btn.line:hover{border-color:var(--fg);background:color-mix(in srgb,var(--fg) 8%,transparent)}
+
+/* photo frame with roasted fallback */
+.ph{position:relative;overflow:hidden;background:
+  radial-gradient(circle at 30% 30%,#6b4428,transparent 60%),
+  radial-gradient(circle at 75% 70%,#3b2416,transparent 55%),
+  linear-gradient(135deg,#4a2e1c,#1d130d);}
+.ph::before{content:"";position:absolute;inset:0;opacity:.18;background-image:radial-gradient(ellipse 7px 10px at 50% 50%,#000 60%,transparent 62%);background-size:34px 34px}
+.ph img{position:relative;width:100%;height:100%;object-fit:cover}
+.ph figcaption{position:absolute;left:12px;bottom:10px;font:600 .72rem var(--body);letter-spacing:.08em;text-transform:uppercase;background:color-mix(in srgb,var(--bg) 70%,transparent);padding:4px 8px;border-radius:4px}
+
+/* header */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:400 1.35rem var(--display)}
+.logo svg{width:28px;height:28px;animation:rock 6s ease-in-out infinite}
+@keyframes rock{50%{transform:rotate(18deg)}}
+nav{display:flex;align-items:center;gap:26px}
+nav a:not(.btn){text-decoration:none;font-weight:600;font-size:.93rem;color:var(--muted);transition:color .2s}
+nav a:not(.btn):hover{color:var(--fg)}
+nav .btn{padding:.6em 1.15em;font-size:.88rem}
+@media (max-width:860px){nav a:not(.btn){display:none}}
+
+/* hero */
+.hero{position:relative;min-height:min(88vh,820px);display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
+.hero .ph{position:absolute;inset:0;z-index:-2}
+.hero .ph img{animation:kenburns 26s ease-in-out infinite alternate;transform-origin:60% 40%}
+@keyframes kenburns{from{transform:scale(1.04)}to{transform:scale(1.18) translate(-2%,-2%)}}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 35%,transparent) 0%,color-mix(in srgb,var(--bg) 20%,transparent) 35%,var(--bg) 100%),linear-gradient(90deg,color-mix(in srgb,var(--bg) 75%,transparent),transparent 70%)}
+#beans{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.hero .wrap{width:100%;padding-block:120px 56px}
+.hero h1{font-size:clamp(2.8rem,7.4vw,6rem);max-width:13ch;margin-top:16px}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero h1 .ln{display:block;overflow:hidden}
+.hero h1 .ln > span{display:inline-block;animation:rise 1s cubic-bezier(.2,.8,.2,1) both}
+.hero h1 .ln:nth-child(2) > span{animation-delay:.12s}
+.hero h1 .ln:nth-child(3) > span{animation-delay:.24s}
+@keyframes rise{from{transform:translateY(100%)}}
+.hero .lede{max-width:46ch;font-size:1.12rem;color:var(--muted);margin-top:20px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.steam{position:absolute;right:max(16px,8vw);bottom:150px;width:120px;height:200px;opacity:.55}
+.steam path{fill:none;stroke:var(--fg);stroke-width:5;stroke-linecap:round;stroke-dasharray:40 260;animation:steam 4s linear infinite}
+.steam path:nth-child(2){animation-delay:1.3s}.steam path:nth-child(3){animation-delay:2.6s}
+@keyframes steam{from{stroke-dashoffset:300;opacity:0}20%{opacity:1}to{stroke-dashoffset:0;opacity:0}}
+@media (max-width:700px){.steam{display:none}}
+
+.figures{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg)}
+.figures div{padding:22px 18px;display:grid;gap:2px;border-left:1px solid var(--line)}
+.figures div:first-child{border-left:0}
+.figures b{font:400 clamp(2rem,4vw,2.8rem)/1 var(--display);font-variant-numeric:tabular-nums;color:var(--fg)}
+.figures span{font-size:.88rem;color:var(--muted)}
+@media (max-width:760px){.figures{grid-template-columns:repeat(2,1fr)}.figures div:nth-child(3){border-left:0}.figures div:nth-child(n+3){border-top:1px solid var(--line)}}
+
+/* marquee */
+.marquee{overflow:hidden;white-space:nowrap;padding-block:18px;border-bottom:1px solid var(--line);background:var(--bg-2)}
+.marquee .track{display:inline-flex;gap:40px;padding-left:40px;animation:mq 40s linear infinite}
+.marquee:hover .track{animation-play-state:paused}
+.marquee span{font:400 1.35rem var(--display);display:inline-flex;align-items:center;gap:14px}
+.marquee small{font:600 .75rem var(--body);color:var(--bean);letter-spacing:.06em}
+.marquee span::after{content:"";width:10px;height:14px;border-radius:50%;background:var(--cherry);margin-left:26px}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+section.block{padding-block:clamp(64px,9vw,120px)}
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 40px;margin-bottom:44px}
+.head p{max-width:48ch;color:var(--muted)}
+@supports (animation-timeline: view()){
+  .reveal{animation:rv linear both;animation-timeline:view();animation-range:entry 0% entry 55%}
+  @keyframes rv{from{transform:translateY(46px)}}
+  .zoom img{animation:zm linear both;animation-timeline:view();animation-range:cover 0% cover 100%}
+  @keyframes zm{from{transform:scale(1.18)}to{transform:scale(1)}}
+}
+
+/* trade split */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media (max-width:860px){.split{grid-template-columns:1fr}}
+.trade{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;transition:transform .35s,border-color .35s}
+.trade:hover{transform:translateY(-6px);border-color:var(--gold)}
+.trade .ph{aspect-ratio:16/9;max-width:100%}
+.trade .ph img{transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.trade:hover .ph img{transform:scale(1.07)}
+.trade .body{padding:26px;display:grid;gap:14px}
+.trade ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.trade li{display:flex;gap:10px;color:var(--muted)}
+.trade li::before{content:"";width:9px;height:12px;border-radius:50%;background:var(--bean);flex:none;margin-top:.5em}
+
+/* origins */
+.origins{display:grid;grid-template-columns:280px 1fr;gap:24px}
+@media (max-width:860px){.origins{grid-template-columns:1fr}}
+.olist{display:grid;gap:6px;align-content:start}
+@media (max-width:860px){.olist{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:480px){.olist{grid-template-columns:repeat(2,1fr)}}
+.olist button{display:flex;justify-content:space-between;align-items:baseline;gap:8px;text-align:left;font:400 1.2rem var(--display);padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--fg);cursor:pointer;transition:background .2s,border-color .2s,transform .2s}
+.olist button small{font:600 .72rem var(--body);color:var(--muted)}
+.olist button:hover{transform:translateX(4px);border-color:var(--gold)}
+.olist button[aria-selected="true"]{background:var(--cherry);border-color:var(--cherry);color:var(--cherry-fg)}
+.olist button[aria-selected="true"] small{color:var(--cherry-fg)}
+.odetail{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:clamp(20px,3vw,34px);display:grid;grid-template-columns:1fr 1fr;gap:28px;min-width:0}
+@media (max-width:700px){.odetail{grid-template-columns:1fr}}
+.odetail .swap{animation:fadeup .5s cubic-bezier(.2,.8,.2,1) both}
+@keyframes fadeup{from{transform:translateY(14px);opacity:.2}}
+.spec{display:grid;grid-template-columns:auto 1fr;gap:8px 18px;margin:18px 0 0}
+.spec dt{font:700 .72rem var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding-top:.25em}
+.spec dd{margin:0;font-variant-numeric:tabular-nums}
+.notes{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.notes span{font-size:.85rem;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2)}
+.bars{display:grid;gap:14px;align-content:start}
+.bar{display:grid;gap:6px}
+.bar .lbl{display:flex;justify-content:space-between;font-size:.88rem;color:var(--muted)}
+.bar .lbl b{color:var(--fg);font-weight:600;font-variant-numeric:tabular-nums}
+.bar .track{height:8px;border-radius:99px;background:var(--bg-2);overflow:hidden}
+.bar .fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--bean),var(--gold));transform-origin:left;animation:grow .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes grow{from{transform:scaleX(0)}}
+.score{display:flex;align-items:baseline;gap:10px;margin-top:6px}
+.score b{font:400 3.2rem/1 var(--display);color:var(--gold);font-variant-numeric:tabular-nums}
+
+/* calendar */
+.cal{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+.cal table{border-collapse:collapse;width:100%;min-width:760px;font-size:.88rem}
+.cal th,.cal td{padding:10px 8px;text-align:center;border-bottom:1px solid var(--line)}
+.cal th{font:700 .72rem var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.cal th.now{color:var(--gold)}
+.cal td:first-child,.cal th:first-child{text-align:left;padding-left:18px;font-family:var(--display);font-size:1.05rem;color:var(--fg);white-space:nowrap}
+.cal tr:last-child td{border-bottom:0}
+.cell{height:16px;border-radius:5px;transform-origin:left;animation:grow .7s cubic-bezier(.2,.8,.2,1) both}
+.cell.h{background:var(--cherry)}
+.cell.s{background:var(--bean)}
+.legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px;font-size:.88rem;color:var(--muted)}
+.legend i{display:inline-block;width:22px;height:10px;border-radius:4px;margin-right:8px;vertical-align:middle}
+
+/* process */
+.process{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media (max-width:900px){.process{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.process{grid-template-columns:1fr}}
+.pstep{display:grid;gap:12px;align-content:start}
+.pstep .ph{aspect-ratio:4/3;max-width:100%;border-radius:16px}
+.pstep .n{font:700 .74rem var(--body);letter-spacing:.14em;color:var(--gold);text-transform:uppercase}
+.pstep p{color:var(--muted)}
+
+/* calculator + route */
+.ship{display:grid;grid-template-columns:380px 1fr;gap:22px;align-items:stretch}
+@media (max-width:960px){.ship{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px;display:grid;gap:18px;align-content:start;min-width:0}
+.panel label{display:grid;gap:8px;font-weight:600;font-size:.92rem}
+.panel input[type=number],.panel select,form input,form select,form textarea{font:500 1rem var(--body);padding:.8em 1em;border-radius:12px;border:1.5px solid var(--line);background:var(--bg-2);color:var(--fg);min-width:0;width:100%}
+.panel input:focus,.panel select:focus,form input:focus,form select:focus,form textarea:focus{outline:none;border-color:var(--gold)}
+input[type=range]{width:100%;accent-color:var(--cherry)}
+.out{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.out div{background:var(--bg-2);border-radius:12px;padding:14px;display:grid;gap:2px}
+.out b{font:400 1.8rem/1.1 var(--display);font-variant-numeric:tabular-nums}
+.out span{font-size:.8rem;color:var(--muted)}
+.boxes{display:flex;flex-wrap:wrap;gap:6px;min-height:30px}
+.box{width:46px;height:22px;border-radius:3px;background:repeating-linear-gradient(90deg,var(--cherry) 0 4px,#b83a2e 4px 7px);animation:drop .45s cubic-bezier(.2,.9,.3,1.3) both}
+.box.part{background:repeating-linear-gradient(90deg,color-mix(in srgb,var(--cherry) 45%,transparent) 0 4px,transparent 4px 7px);border:1px dashed var(--cherry)}
+@keyframes drop{from{transform:translateY(-22px);opacity:0}}
+.note{font-size:.85rem;color:var(--muted)}
+.map{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;display:grid;gap:12px;min-width:0;align-content:center}
+.map svg{width:100%;height:auto;display:block}
+.map .dots circle{fill:var(--line)}
+.route{fill:none;stroke:var(--gold);stroke-width:1.6;stroke-dasharray:5 6;opacity:.55}
+.route.on{stroke:var(--cherry);opacity:1;stroke-dasharray:none;stroke-width:2.2}
+.port circle{fill:var(--fg)}
+.port text{font:600 11px var(--body);fill:var(--fg)}
+.port.home circle{fill:var(--cherry)}
+.ping{fill:none;stroke:var(--cherry);animation:ping 2s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes ping{from{transform:scale(.6);opacity:1}to{transform:scale(3.2);opacity:0}}
+.dest{display:flex;flex-wrap:wrap;gap:8px}
+.dest button{font:600 .85rem var(--body);padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--fg);cursor:pointer}
+.dest button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+
+/* gallery */
+.gallery{overflow:hidden;padding-block:8px}
+.gallery .track{display:flex;gap:16px;width:max-content;animation:mq 60s linear infinite}
+.gallery:hover .track{animation-play-state:paused}
+.gallery .ph{width:clamp(220px,28vw,340px);aspect-ratio:3/4;border-radius:16px;flex:none}
+
+/* contact */
+.contact{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:start}
+@media (max-width:900px){.contact{grid-template-columns:1fr}}
+form{display:grid;gap:14px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:520px){.row2{grid-template-columns:1fr}}
+form label{display:grid;gap:6px;font-weight:600;font-size:.9rem}
+.msg{padding:14px 16px;border-radius:12px;border:1px solid var(--bean);font-size:.95rem}
+.office dl{display:grid;grid-template-columns:auto 1fr;gap:8px 20px;margin:14px 0 0}
+.office dt{font:700 .72rem var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding-top:.25em}
+.office dd{margin:0}
+.certs{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.certs span{font-size:.8rem;font-weight:700;letter-spacing:.06em;padding:6px 10px;border:1px solid var(--line);border-radius:6px;color:var(--bean)}
+
+footer{padding-block:30px;border-top:1px solid var(--line);font-size:.86rem;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Buna Ridge Coffee Trading home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><ellipse cx="16" cy="16" rx="10" ry="13" fill="var(--cherry)" transform="rotate(-25 16 16)"/><path d="M11 6c6 5 4 15 10 20" fill="none" stroke="var(--bg)" stroke-width="2.4" stroke-linecap="round"/></svg>
+      Buna Ridge
+    </a>
+    <nav aria-label="Main">
+      <a href="#trade">Export &amp; import</a>
+      <a href="#origins">Origins</a>
+      <a href="#calendar">Harvest</a>
+      <a href="#shipping">Shipping</a>
+      <a class="btn" href="#contact">Request samples</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <figure class="ph" style="margin:0"><img data-src="photo-1447933601403-0c6688de566e" data-w="2000" alt="Roasted coffee beans and a cup of coffee" fetchpriority="high"></figure>
+    <canvas id="beans" aria-hidden="true"></canvas>
+    <svg class="steam" viewBox="0 0 120 200" aria-hidden="true">
+      <path d="M30 200 C 10 160, 50 140, 30 100 S 50 40, 30 0"/>
+      <path d="M60 200 C 40 160, 80 140, 60 100 S 80 40, 60 0"/>
+      <path d="M90 200 C 70 160, 110 140, 90 100 S 110 40, 90 0"/>
+    </svg>
+    <div class="wrap">
+      <p class="kicker">Ethiopian green coffee · Export &amp; import</p>
+      <h1><span class="ln"><span>From the</span></span><span class="ln"><span><em>highlands</em> to</span></span><span class="ln"><span>your roastery.</span></span></h1>
+      <p class="lede">We source washed and natural Arabica from 2,400 smallholder farmers in six regions, grade and cup every lot in Addis Ababa, and ship FOB Djibouti to roasters on four continents.</p>
+      <div class="ctas">
+        <a class="btn" href="#contact">Request green samples <span class="arr" aria-hidden="true">→</span></a>
+        <a class="btn line" href="#origins">Explore our origins</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="figures">
+    <div><b data-count="38000">38,000</b><span>60 kg bags shipped a year</span></div>
+    <div><b data-count="27">27</b><span>Importing countries</span></div>
+    <div><b data-count="86.5" data-dec="1">86.5</b><span>Average SCA cup score</span></div>
+    <div><b data-count="2400">2,400</b><span>Partner smallholders</span></div>
+  </div>
+
+  <div class="marquee" aria-label="Origins and altitudes"><div class="track" id="mq"></div></div>
+
+  <section class="block" id="trade">
+    <div class="wrap">
+      <div class="head reveal">
+        <div><p class="kicker">What we do</p><h2 style="margin-top:12px">Two directions, one supply chain</h2></div>
+        <p>We export Ethiopian specialty and commercial grades, and we handle the import side for buyers who want one partner from farm gate to their warehouse door.</p>
+      </div>
+      <div class="split">
+        <article class="trade reveal">
+          <figure class="ph zoom" style="margin:0"><img data-src="photo-1559056199-641a0ac8b55e" data-w="1200" alt="Coffee beans" loading="lazy"><figcaption>Export</figcaption></figure>
+          <div class="body">
+            <h3>Green coffee export</h3>
+            <p style="color:var(--muted)">Specialty Grade 1–2 and commercial Grade 3–5, washed and natural, traceable to the washing station.</p>
+            <ul><li>Pre-shipment samples and a cupping report for every lot</li><li>60 kg jute bags with GrainPro liners</li><li>FOB Djibouti or CIF to your nearest port</li><li>Phytosanitary, ICO and origin certificates handled</li></ul>
+          </div>
+        </article>
+        <article class="trade reveal">
+          <figure class="ph zoom" style="margin:0"><img data-src="photo-1495474472287-4d71bcdd2085" data-w="1200" alt="A cup of coffee" loading="lazy"><figcaption>Import</figcaption></figure>
+          <div class="body">
+            <h3>Import services for buyers</h3>
+            <p style="color:var(--muted)">For roasters and distributors who want the coffee delivered, not just shipped.</p>
+            <ul><li>Customs clearance in the EU, US, UAE, Korea and Japan</li><li>Bonded warehouse storage in Rotterdam and Jebel Ali</li><li>Split deliveries from a single container</li><li>Roasting equipment and packaging sourced on request</li></ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="origins" style="padding-top:0">
+    <div class="wrap">
+      <div class="head reveal">
+        <div><p class="kicker">Origins</p><h2 style="margin-top:12px">Six regions, six cups</h2></div>
+        <p>Ethiopia is where Arabica comes from. Each region tastes different. Pick one to see its altitude, processing and typical cup profile from our lab.</p>
+      </div>
+      <div class="origins">
+        <div class="olist" role="tablist" aria-label="Coffee regions" id="olist"></div>
+        <div class="odetail" id="odetail" role="tabpanel" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="calendar" style="padding-top:0">
+    <div class="wrap">
+      <div class="head reveal">
+        <div><p class="kicker">Harvest calendar</p><h2 style="margin-top:12px">When to book your coffee</h2></div>
+        <p>Cherries are picked in the autumn rains. Washed lots are ready to ship first, naturals follow after weeks of drying on raised beds.</p>
+      </div>
+      <div class="cal reveal"><table id="cal"></table></div>
+      <div class="legend"><span><i style="background:var(--cherry)"></i>Harvest</span><span><i style="background:var(--bean)"></i>Shipping window</span></div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0">
+    <div class="wrap">
+      <div class="head reveal">
+        <div><p class="kicker">Farm to port</p><h2 style="margin-top:12px">How a lot reaches you</h2></div>
+        <p>Every bag carries a lot number you can trace back to the washing station and the day it was processed.</p>
+      </div>
+      <div class="process">
+        <article class="pstep reveal"><figure class="ph zoom" style="margin:0"><img data-src="photo-1442512595331-e89e73853f31" data-w="900" alt="Coffee beans" loading="lazy"></figure><span class="n">Step 1 · Oct – Jan</span><h3>Hand picking</h3><p>Only red, ripe cherries. Pickers return to each tree three or four times a season.</p></article>
+        <article class="pstep reveal"><figure class="ph zoom" style="margin:0"><img data-src="photo-1514432324607-a09d9b4aefdd" data-w="900" alt="Coffee" loading="lazy"></figure><span class="n">Step 2 · 2 – 6 weeks</span><h3>Washing &amp; drying</h3><p>Washed lots ferment 36–48 hours. Naturals dry whole on raised African beds to 11% moisture.</p></article>
+        <article class="pstep reveal"><figure class="ph zoom" style="margin:0"><img data-src="photo-1509042239860-f550ce710b93" data-w="900" alt="A cup of coffee from above" loading="lazy"></figure><span class="n">Step 3 · Addis Ababa</span><h3>Grade, cup &amp; ship</h3><p>Hulled, screen-sorted to 14+, defect-counted and cupped by our Q graders before bagging.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="shipping" style="padding-top:0">
+    <div class="wrap">
+      <div class="head reveal">
+        <div><p class="kicker">Shipping</p><h2 style="margin-top:12px">Plan your container</h2></div>
+        <p>A 20-foot container holds about 320 bags of 60 kg (19.2 tonnes). Enter your volume and pick a destination to see the load and the typical sea time from Djibouti.</p>
+      </div>
+      <div class="ship">
+        <div class="panel">
+          <label for="bags">Number of 60 kg bags
+            <input id="bags" type="number" min="1" max="5000" step="1" value="450">
+          </label>
+          <input id="bagsRange" type="range" min="10" max="1600" step="10" value="450" aria-label="Bags slider">
+          <label for="lb">Bag type
+            <select id="lb"><option value="60">60 kg jute (standard)</option><option value="30">30 kg vacuum box (micro-lots)</option></select>
+          </label>
+          <div class="out">
+            <div><b id="oT">27.0 t</b><span>Total weight</span></div>
+            <div><b id="oC">2</b><span>20 ft containers</span></div>
+            <div><b id="oD">18–22</b><span>Days at sea</span></div>
+            <div><b id="oF">87%</b><span>Last container full</span></div>
+          </div>
+          <div class="boxes" id="boxes" aria-hidden="true"></div>
+          <p class="note" id="shipNote"></p>
+        </div>
+        <div class="map">
+          <svg id="map" viewBox="0 0 800 420" role="img" aria-label="Shipping routes from Djibouti">
+            <g class="dots" id="dots"></g>
+            <g id="routes"></g>
+            <g id="ports"></g>
+            <circle r="6" fill="var(--gold)" id="ship"><animateMotion id="mo" dur="6s" repeatCount="indefinite" rotate="auto"><mpath href="#r-0"/></animateMotion></circle>
+          </svg>
+          <div class="dest" id="dest" role="group" aria-label="Destination port"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0" aria-label="Photo gallery">
+    <div class="gallery"><div class="track" id="gal"></div></div>
+  </section>
+
+  <section class="block" id="contact" style="padding-top:0">
+    <div class="wrap contact">
+      <div class="panel">
+        <p class="kicker">Request samples</p>
+        <h2 style="font-size:clamp(1.9rem,4vw,2.6rem)">Taste before you buy</h2>
+        <p style="color:var(--muted)">We send 200 g green samples of up to three lots by courier. Tell us what you roast and we'll pick lots that fit.</p>
+        <form id="sForm" novalidate>
+          <div class="row2">
+            <label for="sName">Name<input id="sName" autocomplete="name"></label>
+            <label for="sCo">Company<input id="sCo" autocomplete="organization"></label>
+          </div>
+          <div class="row2">
+            <label for="sMail">Email<input id="sMail" type="email" autocomplete="email"></label>
+            <label for="sCountry">Country<input id="sCountry" autocomplete="country-name"></label>
+          </div>
+          <div class="row2">
+            <label for="sOrigin">Origin of interest
+              <select id="sOrigin"><option>Yirgacheffe</option><option>Sidama</option><option>Guji</option><option>Harrar</option><option>Limu</option><option>Jimma</option><option>Not sure, recommend</option></select>
+            </label>
+            <label for="sVol">Yearly volume
+              <select id="sVol"><option>Under 1 container</option><option>1 – 5 containers</option><option>6 – 20 containers</option><option>Over 20 containers</option></select>
+            </label>
+          </div>
+          <label for="sNote">What do you roast?<textarea id="sNote" rows="3" placeholder="e.g. light-roast filter for a café chain, espresso blend base"></textarea></label>
+          <button class="btn" type="submit" style="justify-content:center">Send sample request</button>
+          <p class="msg" id="sMsg" hidden></p>
+        </form>
+      </div>
+      <div class="office">
+        <p class="kicker">Office &amp; warehouse</p>
+        <dl>
+          <dt>Head office</dt><dd>Bole Sub-City, Woreda 03<br>Addis Ababa, Ethiopia</dd>
+          <dt>Warehouse</dt><dd>Kality Industrial Zone, Addis Ababa</dd>
+          <dt>Port</dt><dd>Djibouti, Doraleh Multipurpose Port</dd>
+          <dt>Hours</dt><dd>Mon–Fri 08:30–17:30 EAT (UTC+3)</dd>
+          <dt>Phone</dt><dd>+251 11 000 0000</dd>
+          <dt>Email</dt><dd>trade@bunaridge.example</dd>
+        </dl>
+        <div class="certs"><span>ECTA LICENSED</span><span>ORGANIC (EU)</span><span>FAIRTRADE</span><span>RAINFOREST ALLIANCE</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Buna Ridge Coffee Trading. Demo website: company details are placeholders.</span>
+    <span>Photos: <a href="https://unsplash.com/s/photos/coffee">Unsplash</a>, free to use under the <a href="https://unsplash.com/license">Unsplash License</a>.</span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = id => document.getElementById(id);
+
+  /* photos: free Unsplash images, roasted gradient stays visible if one fails to load */
+  const IMG = id => w => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=70`;
+  const gallery = ['photo-1511920170033-f8396924c348','photo-1497935586351-b67a49e012bf','photo-1442512595331-e89e73853f31','photo-1509042239860-f550ce710b93','photo-1559056199-641a0ac8b55e','photo-1514432324607-a09d9b4aefdd'];
+  const gh = gallery.map(id=>`<figure class="ph" style="margin:0"><img data-src="${id}" data-w="700" alt="Coffee photo" loading="lazy"></figure>`).join('');
+  $('gal').innerHTML = gh + gh.replace(/alt="Coffee photo"/g,'alt=""');
+  document.querySelectorAll('img[data-src]').forEach(img=>{
+    img.addEventListener('error',()=>{img.hidden=true;},{once:true});
+    img.src = IMG(img.dataset.src)(img.dataset.w||1200);
+  });
+
+  /* marquee */
+  const og=[['Yirgacheffe','1,750–2,200 m'],['Sidama','1,500–2,200 m'],['Guji','1,800–2,300 m'],['Harrar','1,500–2,100 m'],['Limu','1,400–2,000 m'],['Jimma','1,400–2,100 m']];
+  const mh=og.map(([n,a])=>`<span>${n}<small>${a}</small></span>`).join(''); $('mq').innerHTML=mh+mh;
+
+  /* counters */
+  if(!reduce && 'IntersectionObserver' in window){
+    const io=new IntersectionObserver(es=>es.forEach(e=>{
+      if(!e.isIntersecting) return; io.unobserve(e.target);
+      const el=e.target,end=+el.dataset.count,dec=+(el.dataset.dec||0),t0=performance.now();
+      const f=t=>{const p=Math.min(1,(t-t0)/1300),v=end*(1-Math.pow(1-p,3)); el.textContent=v.toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec}); if(p<1) requestAnimationFrame(f);};
+      requestAnimationFrame(f);
+    }),{threshold:.5});
+    document.querySelectorAll('[data-count]').forEach(el=>io.observe(el));
+  }
+
+  /* origins */
+  const O=[
+    {n:'Yirgacheffe',z:'Gedeo Zone, SNNPR',alt:'1,750–2,200 m',proc:'Washed & natural',grade:'G1 – G2',var:'Ethiopian heirloom (Kurume, Wolisho)',score:'87–90',notes:['Jasmine','Bergamot','Lemon zest','Peach'],p:{Acidity:90,Body:55,Sweetness:80,Floral:95}},
+    {n:'Sidama',z:'Sidama Region',alt:'1,500–2,200 m',proc:'Washed & natural',grade:'G1 – G3',var:'Ethiopian heirloom',score:'85–88',notes:['Blueberry','Dark chocolate','Citrus','Honey'],p:{Acidity:78,Body:68,Sweetness:82,Floral:70}},
+    {n:'Guji',z:'Guji Zone, Oromia',alt:'1,800–2,300 m',proc:'Natural & anaerobic',grade:'G1 – G2',var:'Ethiopian heirloom',score:'86–90',notes:['Strawberry','Tropical fruit','Cacao','Rose'],p:{Acidity:82,Body:70,Sweetness:90,Floral:78}},
+    {n:'Harrar',z:'East Hararghe, Oromia',alt:'1,500–2,100 m',proc:'Natural (sun-dried)',grade:'G4 – G5',var:'Longberry & shortberry',score:'82–85',notes:['Blueberry jam','Wine','Cardamom','Mocha'],p:{Acidity:60,Body:85,Sweetness:70,Floral:40}},
+    {n:'Limu',z:'Jimma Zone, Oromia',alt:'1,400–2,000 m',proc:'Washed',grade:'G2',var:'Ethiopian heirloom',score:'84–86',notes:['Spice','Lime','Brown sugar','Black tea'],p:{Acidity:72,Body:62,Sweetness:74,Floral:58}},
+    {n:'Jimma',z:'Jimma Zone, Oromia',alt:'1,400–2,100 m',proc:'Natural',grade:'G4 – G5',var:'Ethiopian heirloom',score:'80–83',notes:['Earthy','Cocoa','Dried fruit','Nutty'],p:{Acidity:50,Body:80,Sweetness:62,Floral:30}}
+  ];
+  const ol=$('olist'), od=$('odetail');
+  O.forEach((o,i)=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.innerHTML=`${o.n}<small>${o.score}</small>`;b.onclick=()=>showO(i);ol.appendChild(b);});
+  ol.addEventListener('keydown',e=>{const bs=[...ol.children],i=bs.indexOf(document.activeElement);if(i<0)return;
+    if(['ArrowDown','ArrowRight'].includes(e.key)){e.preventDefault();bs[(i+1)%bs.length].focus();bs[(i+1)%bs.length].click();}
+    if(['ArrowUp','ArrowLeft'].includes(e.key)){e.preventDefault();bs[(i-1+bs.length)%bs.length].focus();bs[(i-1+bs.length)%bs.length].click();}});
+  function showO(i){
+    const o=O[i]; [...ol.children].forEach((b,j)=>b.setAttribute('aria-selected',i===j));
+    od.innerHTML=`<div class="swap"><p class="kicker">${o.z}</p><h3 style="font-size:2.2rem;margin-top:8px">${o.n}</h3>
+      <dl class="spec"><dt>Altitude</dt><dd>${o.alt}</dd><dt>Process</dt><dd>${o.proc}</dd><dt>Grade</dt><dd>${o.grade}</dd><dt>Variety</dt><dd>${o.var}</dd></dl>
+      <div class="notes">${o.notes.map(n=>`<span>${n}</span>`).join('')}</div></div>
+      <div class="bars swap" style="animation-delay:.08s"><div><p class="kicker" style="color:var(--muted)">SCA cup score</p><div class="score"><b>${o.score}</b><span class="note">/ 100</span></div></div>
+      ${Object.entries(o.p).map(([k,v],j)=>`<div class="bar"><div class="lbl">${k}<b>${v/10}</b></div><div class="track"><div class="fill" style="width:${v}%;animation-delay:${.15+j*.08}s"></div></div></div>`).join('')}
+      <a class="btn line" href="#contact" style="justify-self:start;margin-top:6px">Sample ${o.n}</a></div>`;
+  }
+  showO(0);
+
+  /* harvest calendar (month index 0 = Jan) */
+  const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const C={Yirgacheffe:{h:[9,10,11,0],s:[1,2,3,4,5,6]},Sidama:{h:[9,10,11,0],s:[1,2,3,4,5,6]},Guji:{h:[10,11,0],s:[2,3,4,5,6]},Harrar:{h:[9,10,11,0,1],s:[3,4,5,6,7]},Limu:{h:[9,10,11],s:[0,1,2,3,4,5]},Jimma:{h:[9,10,11,0,1],s:[3,4,5,6,7,8]}};
+  const cm=new Date().getMonth();
+  $('cal').innerHTML=`<thead><tr><th scope="col">Region</th>${M.map((m,i)=>`<th scope="col" class="${i===cm?'now':''}">${m}${i===cm?' ●':''}</th>`).join('')}</tr></thead><tbody>`+
+    Object.entries(C).map(([n,c],r)=>`<tr><td>${n}</td>${M.map((_,i)=>{const k=c.h.includes(i)?'h':c.s.includes(i)?'s':'';return `<td>${k?`<div class="cell ${k}" style="animation-delay:${(r*12+i)*18}ms" title="${k==='h'?'Harvest':'Shipping'}"></div>`:''}</td>`;}).join('')}</tr>`).join('')+'</tbody>';
+
+  /* shipping calculator */
+  const P={Rotterdam:{d:'18–22',x:330,y:105},'New York':{d:'28–32',x:120,y:135},Jeddah:{d:'3–5',x:455,y:205},'Jebel Ali':{d:'6–8',x:520,y:190},Busan:{d:'22–26',x:705,y:150},Yokohama:{d:'24–28',x:745,y:160}};
+  const home={x:470,y:245};
+  let dest='Rotterdam';
+  const bags=$('bags'), br=$('bagsRange'), lb=$('lb');
+  function calc(){
+    let n=Math.max(1,Math.round(+bags.value||1)); const kg=+lb.value, perCont=kg===60?320:600;
+    const t=n*kg/1000, c=Math.ceil(n/perCont), full=Math.round(((n-1)%perCont+1)/perCont*100);
+    $('oT').textContent=t.toFixed(1)+' t'; $('oC').textContent=c; $('oD').textContent=P[dest].d; $('oF').textContent=full+'%';
+    const show=Math.min(c,24);
+    $('boxes').innerHTML=Array.from({length:show},(_,i)=>`<div class="box${i===c-1&&full<100?' part':''}" style="animation-delay:${i*40}ms" title="Container ${i+1}"></div>`).join('')+(c>24?`<span class="note">+${c-24} more</span>`:'');
+    $('shipNote').textContent=`${c} × 20 ft to ${dest}. ${full<60?`The last container is only ${full}% full: adding ${perCont-((n-1)%perCont+1)} bags fills it and usually lowers your freight cost per bag.`:'Good fill. Booking 4–6 weeks before the shipping window keeps rates stable.'}`;
+  }
+  bags.addEventListener('input',()=>{br.value=bags.value;calc();});
+  br.addEventListener('input',()=>{bags.value=br.value;calc();});
+  lb.addEventListener('change',calc);
+
+  /* route map */
+  const NS='http://www.w3.org/2000/svg', svg=$('map');
+  // land as a loose dot field (decorative, approximate continents)
+  const land=[[60,60,260,190],[200,190,300,360],[300,70,460,170],[400,170,560,340],[440,60,760,190],[600,190,720,260],[650,280,760,360]];
+  let dots='';
+  for(let x=20;x<790;x+=14) for(let y=20;y<400;y+=14){ if(land.some(([a,b,c,d])=>x>a&&x<c&&y>b&&y<d) && Math.sin(x*12.9898+y*78.233)*43758%1>-.55) dots+=`<circle cx="${x}" cy="${y}" r="2.2"/>`; }
+  $('dots').innerHTML=dots;
+  const names=Object.keys(P);
+  $('routes').innerHTML=names.map((n,i)=>{const p=P[n],mx=(home.x+p.x)/2,my=Math.min(home.y,p.y)-60-Math.abs(home.x-p.x)*.15;return `<path id="r-${i}" class="route" d="M${home.x} ${home.y} Q${mx} ${my} ${p.x} ${p.y}"/>`;}).join('');
+  $('ports').innerHTML=`<g class="port home"><circle class="ping" cx="${home.x}" cy="${home.y}" r="7"/><circle cx="${home.x}" cy="${home.y}" r="6"/><text x="${home.x+10}" y="${home.y+18}">Djibouti</text></g>`+
+    names.map(n=>{const p=P[n];return `<g class="port"><circle cx="${p.x}" cy="${p.y}" r="4"/><text x="${p.x}" y="${p.y-10}" text-anchor="middle">${n}</text></g>`;}).join('');
+  const dg=$('dest');
+  names.forEach((n,i)=>{const b=document.createElement('button');b.type='button';b.textContent=n;b.onclick=()=>pickDest(n,i);dg.appendChild(b);});
+  function pickDest(n,i){
+    dest=n; [...dg.children].forEach((b,j)=>b.setAttribute('aria-pressed',i===j));
+    document.querySelectorAll('.route').forEach((r,j)=>r.classList.toggle('on',i===j));
+    const mo=$('mo'); mo.querySelector('mpath').setAttribute('href','#r-'+i);
+    if(mo.beginElement) try{mo.beginElement();}catch(e){}
+    calc();
+  }
+  if(reduce) $('ship').remove();
+  pickDest('Rotterdam',0);
+
+  /* form */
+  $('sForm').addEventListener('submit',e=>{
+    e.preventDefault(); const m=$('sMsg'); m.hidden=false;
+    const name=$('sName').value.trim(), mail=$('sMail').value.trim();
+    if(!name){m.textContent='Add your name so we know who to address the samples to.';$('sName').focus();return;}
+    if(!/^\S+@\S+\.\S+$/.test(mail)){m.textContent='Enter an email like buyer@roastery.com so we can send tracking details.';$('sMail').focus();return;}
+    m.textContent=`Thanks, ${name}. This is a demo website, so nothing was sent. On a live site, ${$('sOrigin').value} samples for ${$('sVol').value.toLowerCase()} would be confirmed to ${mail}.`;
+  });
+
+  /* floating coffee beans in the hero */
+  const cv=$('beans'), cx=cv.getContext('2d'); let W=0,H=0,mx=-999,my=-999;
+  const size=()=>{const r=cv.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);W=r.width;H=r.height;cv.width=W*d;cv.height=H*d;cx.setTransform(d,0,0,d,0,0);};
+  size(); addEventListener('resize',size);
+  cv.parentElement.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;});
+  cv.parentElement.addEventListener('pointerleave',()=>{mx=my=-999;});
+  const R=(a,b)=>a+Math.random()*(b-a);
+  const beans=Array.from({length:Math.min(28,Math.round(innerWidth/50))},()=>({x:R(0,innerWidth),y:R(0,800),s:R(7,16),r:R(0,6.3),vr:R(-.01,.01),vy:R(.15,.5),ph:R(0,6.3),dx:0,dy:0,c:Math.random()<.25}));
+  function bean(b){
+    cx.save(); cx.translate(b.x,b.y); cx.rotate(b.r);
+    cx.fillStyle=b.c?'#c0392b':'#5a3520'; cx.globalAlpha=.85;
+    cx.beginPath(); cx.ellipse(0,0,b.s*.72,b.s,0,0,7); cx.fill();
+    cx.strokeStyle=b.c?'#7d1f16':'#2a170c'; cx.lineWidth=b.s*.16; cx.lineCap='round';
+    cx.beginPath(); cx.moveTo(0,-b.s*.8); cx.bezierCurveTo(b.s*.35,-b.s*.3,-b.s*.35,b.s*.3,0,b.s*.8); cx.stroke();
+    cx.globalAlpha=.25; cx.fillStyle='#fff'; cx.beginPath(); cx.ellipse(-b.s*.3,-b.s*.4,b.s*.15,b.s*.3,0,0,7); cx.fill();
+    cx.restore();
+  }
+  function tick(t){
+    cx.clearRect(0,0,W,H);
+    for(const b of beans){
+      b.y+=b.vy; b.x+=Math.sin(t/1800+b.ph)*.35; b.r+=b.vr;
+      const dx=b.x-mx, dy=b.y-my, d=Math.hypot(dx,dy);
+      if(d<140){const f=(140-d)/140*2; b.dx+=dx/(d+1)*f; b.dy+=dy/(d+1)*f; b.vr+=.002;}
+      b.dx*=.92; b.dy*=.92; b.x+=b.dx; b.y+=b.dy; b.vr*=.995;
+      if(b.y>H+20){b.y=-20;b.x=R(0,W);} if(b.x<-20)b.x=W+20; if(b.x>W+20)b.x=-20;
+      bean(b);
+    }
+    if(!reduce) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
