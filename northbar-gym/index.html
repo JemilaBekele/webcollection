@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Northbar Strength Club</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a gym floor read left to right — loaded barbell hero, colour-coded plates encode class intensity throughout, bands alternate chalk and iron. */
+:root{
+  --chalk:#eceef1;      /* page ground: chalk-dusted rubber floor */
+  --surface:#ffffff;
+  --iron:#161a24;       /* text, steel */
+  --muted:#5b6274;
+  --line:#d3d7de;
+  --band:#1b2030;       /* dark band background */
+  --band-fg:#eceef1;
+  --accent:#1f4fd6;     /* competition-plate blue */
+  --accent-fg:#ffffff;
+  /* IWF bumper colours: these are the real-world code, kept per theme */
+  --p25:#d7262e; --p20:#1f4fd6; --p15:#f2b705; --p10:#1e9a4c; --p5:#f4f4f2; --p25s:#b6b9c1;
+  --plate-edge:#0d1018;
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --body:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --gutter-l:max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r:max(16px, env(safe-area-inset-right, 0px));
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --chalk:#0f121a; --surface:#171b26; --iron:#e8eaef; --muted:#9aa1b3; --line:#2a3040;
+  --band:#e8eaef; --band-fg:#141821; --accent:#5c86ff; --accent-fg:#0b0e16;
+  --p20:#3d6cf0; --p5:#dcdcd8; --plate-edge:#05070b; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --chalk:#0f121a; --surface:#171b26; --iron:#e8eaef; --muted:#9aa1b3; --line:#2a3040;
+  --band:#e8eaef; --band-fg:#141821; --accent:#5c86ff; --accent-fg:#0b0e16;
+  --p20:#3d6cf0; --p5:#dcdcd8; --plate-edge:#05070b; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--chalk);color:var(--iron);font-family:var(--body);font-size:16px;line-height:1.55;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--chalk)}
+h1,h2,h3{font-family:var(--display);text-transform:uppercase;line-height:.92;margin:0;text-wrap:balance;letter-spacing:.005em}
+h2{font-size:clamp(2.6rem,6vw,4.4rem);font-weight:900}
+h3{font-size:1.7rem;font-weight:800}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:var(--gutter-l);padding-right:var(--gutter-r)}
+.label{font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;gap:.5em;font:600 1rem var(--body);padding:.85em 1.4em;border:2px solid var(--iron);background:var(--iron);color:var(--chalk);text-decoration:none;cursor:pointer;transition:transform .15s,background .15s,color .15s}
+.btn:hover{transform:translateY(-2px);background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.btn.ghost{background:transparent;color:var(--iron)}
+.btn.ghost:hover{color:var(--accent-fg)}
+.btn .arr{transition:transform .2s}
+.btn:hover .arr{transform:translateX(4px)}
+
+/* moving page background */
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
+main,footer{position:relative;z-index:1}
+.hero,section.block:not(.dark){background:transparent}
+.dark{background-color:var(--band);background-image:linear-gradient(45deg,color-mix(in srgb,var(--band-fg) 5%,transparent) 25%,transparent 25% 50%,color-mix(in srgb,var(--band-fg) 5%,transparent) 50% 75%,transparent 75%);background-size:84px 84px;animation:stripes 5s linear infinite}
+@keyframes stripes{to{background-position:84px 0}}
+.stage .grid{animation:gridrun 2.4s linear infinite}
+@keyframes gridrun{to{background-position:0 40px}}
+.stage .grid{background-size:100% 40px}
+.hero .lede,.head p{background:color-mix(in srgb,var(--chalk) 70%,transparent);border-radius:2px}
+.dark .head p{background:none}
+
+/* header */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--chalk) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
+.logo{font-family:var(--display);font-weight:900;font-size:1.6rem;text-transform:uppercase;text-decoration:none;display:flex;align-items:center;gap:.4em;letter-spacing:.02em}
+.logo i{display:inline-block;width:26px;height:8px;background:var(--iron);position:relative;border-radius:2px}
+.logo i::before,.logo i::after{content:"";position:absolute;top:-7px;width:6px;height:22px;background:var(--p25);border-radius:2px}
+.logo i::before{left:-2px}.logo i::after{right:-2px}
+nav{display:flex;gap:22px;align-items:center}
+nav a{text-decoration:none;font-weight:500;font-size:.95rem;position:relative}
+nav a:not(.btn)::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .25s}
+nav a:not(.btn):hover::after{transform:scaleX(1)}
+nav .btn{padding:.55em 1em;font-size:.9rem}
+@media (max-width:760px){nav a:not(.btn){display:none}}
+
+/* hero */
+.hero{padding-block:clamp(40px,7vw,88px) 0;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(24px,4vw,56px);align-items:center}
+.hero h1{font-size:clamp(3.6rem,10vw,8.4rem);font-weight:900}
+.hero h1 .row{display:block;overflow:hidden}
+.hero h1 .row span{display:inline-block;animation:rise .8s cubic-bezier(.2,.8,.2,1) both}
+.hero h1 .row:nth-child(2) span{animation-delay:.12s;color:var(--accent)}
+.hero h1 .row:nth-child(3) span{animation-delay:.24s}
+@keyframes rise{from{transform:translateY(105%)}to{transform:none}}
+.hero .lede{max-width:36ch;font-size:1.15rem;color:var(--muted);margin-top:22px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.hero .open{display:flex;align-items:center;gap:10px;margin-top:22px}
+.pulse{width:10px;height:10px;border-radius:50%;background:var(--p10);box-shadow:0 0 0 0 color-mix(in srgb,var(--p10) 60%,transparent);animation:ping 1.8s infinite}
+@keyframes ping{70%{box-shadow:0 0 0 12px transparent}100%{box-shadow:0 0 0 0 transparent}}
+
+/* barbell stage */
+.stage{position:relative;aspect-ratio:1/0.9;max-width:100%;background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.stage .grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px);background-size:100% 12.5%;opacity:.6}
+.stage .ruler{position:absolute;left:12px;top:10px;bottom:62px;display:flex;flex-direction:column;justify-content:space-between;font:500 .68rem var(--mono);color:var(--muted)}
+.stage .readout{position:absolute;right:14px;top:12px;text-align:right}
+.stage .readout b{display:block;font:900 2.6rem/1 var(--display);font-variant-numeric:tabular-nums}
+.lifter{position:relative;height:100%;display:flex;align-items:flex-end;justify-content:center}
+.bar-rig{position:absolute;left:6%;right:6%;bottom:62px;height:150px;animation:lift 4.2s cubic-bezier(.5,0,.3,1) 1.6s infinite}
+@keyframes lift{
+  0%,12%{transform:translateY(0)}
+  38%{transform:translateY(-118%)}
+  60%{transform:translateY(-118%)}
+  86%,100%{transform:translateY(0)}
+}
+.bar{position:absolute;left:0;right:0;top:50%;height:10px;margin-top:-5px;background:linear-gradient(var(--muted),var(--iron));border-radius:3px}
+.bar::before,.bar::after{content:"";position:absolute;top:-3px;width:15%;height:16px;background:linear-gradient(var(--muted),var(--iron));border-radius:2px}
+.bar::before{left:0}.bar::after{right:0}
+.knurl{position:absolute;left:30%;right:30%;top:50%;height:10px;margin-top:-5px;background:repeating-linear-gradient(90deg,transparent 0 3px,color-mix(in srgb,var(--chalk) 35%,transparent) 3px 4px)}
+.side{position:absolute;top:0;bottom:0;display:flex;align-items:center;gap:3px}
+.side.l{left:12%;flex-direction:row-reverse}
+.side.r{right:12%}
+.plate{height:100%;width:22px;border-radius:4px;border:2px solid var(--plate-edge);flex:none}
+.side.l .plate{animation:slideL .55s cubic-bezier(.2,.9,.3,1.2) both}
+.side.r .plate{animation:slideR .55s cubic-bezier(.2,.9,.3,1.2) both}
+.plate:nth-child(1){animation-delay:.35s!important}
+.plate:nth-child(2){animation-delay:.6s!important}
+.plate:nth-child(3){animation-delay:.85s!important}
+.plate:nth-child(4){animation-delay:1.1s!important}
+@keyframes slideL{from{transform:translateX(-340px);}}
+@keyframes slideR{from{transform:translateX(340px);}}
+.floor{position:absolute;left:0;right:0;bottom:0;height:62px;background:repeating-linear-gradient(90deg,var(--band) 0 60px,color-mix(in srgb,var(--band) 85%,var(--chalk)) 60px 120px)}
+.floor::before{content:"";position:absolute;left:30%;right:30%;top:0;height:4px;background:var(--p15)}
+
+/* ticker */
+.ticker{margin-top:clamp(40px,6vw,72px);background:var(--band);color:var(--band-fg);overflow:hidden;padding-block:14px;white-space:nowrap}
+.ticker .track{display:inline-flex;gap:40px;animation:scroll 38s linear infinite;padding-left:40px}
+.ticker:hover .track{animation-play-state:paused}
+.ticker span{font:800 1.5rem var(--display);text-transform:uppercase;display:inline-flex;gap:14px;align-items:center}
+.ticker em{font:500 .8rem var(--mono);font-style:normal;opacity:.7;letter-spacing:.06em}
+.ticker i{width:12px;height:12px;border-radius:2px;display:inline-block}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* sections */
+section.block{padding-block:clamp(64px,9vw,120px)}
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 40px;margin-bottom:40px}
+.head p{max-width:46ch;color:var(--muted)}
+@supports (animation-timeline: view()){
+  .reveal{animation:nudge linear both;animation-timeline:view();animation-range:entry 0% entry 60%}
+  @keyframes nudge{from{transform:translateY(36px)}to{transform:none}}
+}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--iron);border-bottom:1px solid var(--line)}
+.stat{padding:22px 18px 22px 0;display:grid;gap:4px}
+.stat + .stat{padding-left:18px;border-left:1px solid var(--line)}
+.stat b{font:900 clamp(2.4rem,5vw,3.6rem)/1 var(--display);font-variant-numeric:tabular-nums}
+@media (max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.stat:nth-child(3){padding-left:0;border-left:0}.stat:nth-child(n+3){border-top:1px solid var(--line)}}
+
+/* programs */
+.programs{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media (max-width:980px){.programs{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.programs{grid-template-columns:1fr}}
+.prog{background:var(--surface);border:1px solid var(--line);padding:22px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden;transition:transform .25s,border-color .25s}
+.prog:hover{transform:translateY(-6px);border-color:var(--iron)}
+.prog .disc{width:64px;height:64px;border-radius:50%;border:3px solid var(--plate-edge);display:grid;place-items:center;font:800 1.1rem var(--display);color:#fff;transition:transform .6s cubic-bezier(.3,1.4,.5,1)}
+.prog:hover .disc{transform:rotate(200deg)}
+.prog .disc span{display:block}
+.prog .meta{margin-top:auto;display:flex;justify-content:space-between;font:500 .78rem var(--mono);color:var(--muted);border-top:1px dashed var(--line);padding-top:12px}
+.prog p{color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:22px;font:500 .75rem var(--mono);color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--plate-edge)}
+
+/* schedule */
+.dark{background:var(--band);color:var(--band-fg)}
+.dark .label,.dark .head p{color:color-mix(in srgb,var(--band-fg) 65%,transparent)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:22px}
+.tabs button{font:600 .95rem var(--body);padding:.6em 1.1em;background:transparent;color:inherit;border:1.5px solid color-mix(in srgb,var(--band-fg) 30%,transparent);cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.tabs button:hover{border-color:var(--band-fg)}
+.tabs button[aria-selected="true"]{background:var(--band-fg);color:var(--band);border-color:var(--band-fg)}
+.sched{display:grid;gap:0;border-top:1px solid color-mix(in srgb,var(--band-fg) 25%,transparent)}
+.slot{display:grid;grid-template-columns:110px 1fr 160px 120px;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid color-mix(in srgb,var(--band-fg) 18%,transparent);animation:slotIn .45s cubic-bezier(.2,.8,.2,1) both}
+@keyframes slotIn{from{transform:translateX(-18px)}}
+.slot time{font:500 1rem var(--mono);font-variant-numeric:tabular-nums}
+.slot strong{font:800 1.5rem var(--display);text-transform:uppercase}
+.slot .coach{font-size:.95rem;opacity:.8}
+.chip{display:inline-flex;align-items:center;gap:8px;font:500 .78rem var(--mono)}
+.chip i{width:14px;height:14px;border-radius:50%;border:2px solid var(--plate-edge)}
+@media (max-width:640px){.slot{grid-template-columns:80px 1fr;row-gap:4px}.slot .coach,.slot .chip{grid-column:2}}
+
+/* plate calculator */
+.calc{display:grid;grid-template-columns:340px 1fr;gap:24px;align-items:stretch}
+@media (max-width:860px){.calc{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);padding:24px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.field{display:grid;gap:8px}
+.field label{font-weight:600}
+.num{display:flex;align-items:stretch;border:2px solid var(--iron)}
+.num button{width:52px;font:800 1.5rem var(--display);background:var(--iron);color:var(--chalk);border:0;cursor:pointer}
+.num button:hover{background:var(--accent);color:var(--accent-fg)}
+.num input{flex:1;min-width:0;text-align:center;font:900 2.2rem var(--display);border:0;background:transparent;color:var(--iron);font-variant-numeric:tabular-nums;padding:6px 0}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.seg{display:flex;border:1.5px solid var(--line)}
+.seg button{flex:1;padding:.6em;font:600 .9rem var(--body);background:transparent;color:var(--iron);border:0;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--iron);color:var(--chalk)}
+.out{background:var(--surface);border:1px solid var(--line);padding:24px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.calc-bar{position:relative;height:190px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.calc-bar .shaft{position:absolute;left:0;right:0;height:10px;background:linear-gradient(var(--muted),var(--iron));border-radius:3px}
+.calc-bar .center{position:relative;width:34%;height:10px}
+.calc-bar .stack{position:absolute;top:50%;display:flex;align-items:center;gap:2px;transform:translateY(-50%)}
+.calc-bar .stack.l{right:66%;flex-direction:row-reverse;margin-right:2px}
+.calc-bar .stack.r{left:66%;margin-left:2px}
+.calc-bar .stack.l{right:calc(50% + 17%)}
+.calc-bar .stack.r{left:calc(50% + 17%)}
+.cplate{border:2px solid var(--plate-edge);border-radius:3px;flex:none;animation:drop .35s cubic-bezier(.2,.9,.3,1.3) both}
+@keyframes drop{from{transform:translateY(-40px) scaleY(.6)}}
+.collar{width:8px;height:30px;background:var(--muted);border-radius:2px;flex:none}
+.breakdown{display:flex;flex-wrap:wrap;gap:10px}
+.breakdown .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid var(--line);font:500 .85rem var(--mono);font-variant-numeric:tabular-nums}
+.breakdown .pill i{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--plate-edge)}
+.note{font-size:.9rem;color:var(--muted)}
+.totals{display:flex;flex-wrap:wrap;gap:8px 28px;font:500 .85rem var(--mono);color:var(--muted)}
+.totals b{color:var(--iron);font-weight:500}
+
+/* coaches */
+.coaches{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:860px){.coaches{grid-template-columns:1fr}}
+.coach-card{border-top:3px solid var(--iron);padding-top:18px;display:grid;gap:10px}
+.avatar{aspect-ratio:4/3;max-width:100%;background:var(--surface);border:1px solid var(--line);position:relative;overflow:hidden;display:grid;place-items:center}
+.avatar canvas{width:100%;height:100%;display:block}
+.avatar .init{position:absolute;left:14px;bottom:10px;font:900 3rem/1 var(--display)}
+.coach-card ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.coach-card li{font:500 .75rem var(--mono);padding:4px 8px;border:1px solid var(--line)}
+.coach-card .pr{font:500 .85rem var(--mono);color:var(--muted)}
+
+/* pricing */
+.prices{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
+@media (max-width:860px){.prices{grid-template-columns:1fr}}
+.price{background:var(--surface);border:1px solid var(--line);padding:26px;display:flex;flex-direction:column;gap:16px}
+.price.feat{background:var(--iron);color:var(--chalk);border-color:var(--iron);position:relative}
+.price.feat .label{color:color-mix(in srgb,var(--chalk) 65%,transparent)}
+.price .amt{font:900 3.6rem/1 var(--display);font-variant-numeric:tabular-nums}
+.price .amt small{font:500 .9rem var(--mono);opacity:.7}
+.price ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.price li{display:flex;gap:10px}
+.price li::before{content:"";width:8px;height:8px;margin-top:.55em;background:var(--accent);flex:none}
+.price .btn{margin-top:auto;justify-content:center}
+.price.feat .btn{background:var(--chalk);color:var(--iron);border-color:var(--chalk)}
+.price.feat .btn:hover{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.tag{position:absolute;top:-12px;right:18px;background:var(--p15);color:#141821;font:600 .72rem var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:5px 10px}
+
+/* join */
+.join{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+@media (max-width:860px){.join{grid-template-columns:1fr}}
+form{display:grid;gap:14px}
+form .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:480px){form .row2{grid-template-columns:1fr}}
+form label{display:grid;gap:6px;font-weight:600;font-size:.92rem}
+form input,form select{font:400 1rem var(--body);padding:.75em .9em;border:1.5px solid color-mix(in srgb,var(--band-fg) 35%,transparent);background:transparent;color:var(--band-fg);min-width:0}
+form select option{color:#141821}
+form input:focus,form select:focus{outline:none;border-color:var(--band-fg)}
+.dark .btn{background:var(--band-fg);color:var(--band);border-color:var(--band-fg);justify-content:center}
+.dark .btn:hover{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.done{padding:14px 16px;border:1.5px solid var(--p10);font-size:.95rem}
+.visit{display:grid;gap:18px;font-size:1rem}
+.visit dl{display:grid;grid-template-columns:auto 1fr;gap:6px 22px;margin:0}
+.visit dt{font:500 .8rem var(--mono);text-transform:uppercase;letter-spacing:.1em;opacity:.65;padding-top:.2em}
+.visit dd{margin:0;font-variant-numeric:tabular-nums}
+
+footer{padding-block:28px;border-top:1px solid var(--line)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:.88rem;color:var(--muted)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+@media (max-width:860px){.hero-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<header>
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Northbar Strength Club home"><i></i>Northbar</a>
+    <nav aria-label="Main">
+      <a href="#programs">Programs</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#calculator">Plate math</a>
+      <a href="#pricing">Membership</a>
+      <a class="btn" href="#join">Book a free session</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="label">Strength &amp; conditioning · Est. 2019</p>
+        <h1 style="margin-top:14px">
+          <span class="row"><span>Lift heavy.</span></span>
+          <span class="row"><span>Move well.</span></span>
+          <span class="row"><span>Come back.</span></span>
+        </h1>
+        <p class="lede">Eight competition platforms, coached classes from 05:30, and a floor where nobody minds the chalk. Your first session with a coach is free.</p>
+        <div class="ctas">
+          <a class="btn" href="#join">Book a free session <span class="arr">→</span></a>
+          <a class="btn ghost" href="#schedule">See today's classes</a>
+        </div>
+        <div class="open"><span class="pulse" aria-hidden="true"></span><span class="label" id="openNow">Open today 05:00–23:00</span></div>
+      </div>
+
+      <div class="stage" aria-label="Animated barbell loaded to 140 kilograms being lifted">
+        <div class="grid" aria-hidden="true"></div>
+        <div class="ruler" aria-hidden="true"><span>2.0 m</span><span>1.5</span><span>1.0</span><span>0.5</span><span>0</span></div>
+        <div class="readout"><span class="label">On the bar</span><b id="heroKg">140 kg</b><span class="label">20 kg bar · 25+20+15 per side</span></div>
+        <div class="lifter">
+          <div class="bar-rig" aria-hidden="true">
+            <div class="bar"></div><div class="knurl"></div>
+            <div class="side l">
+              <div class="plate" style="background:var(--p25)"></div>
+              <div class="plate" style="background:var(--p20)"></div>
+              <div class="plate" style="background:var(--p15);height:100%"></div>
+            </div>
+            <div class="side r">
+              <div class="plate" style="background:var(--p25)"></div>
+              <div class="plate" style="background:var(--p20)"></div>
+              <div class="plate" style="background:var(--p15)"></div>
+            </div>
+          </div>
+        </div>
+        <div class="floor" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <div class="ticker" aria-label="Recent member personal records">
+      <div class="track" id="ticker"></div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-bottom:0">
+    <div class="wrap">
+      <div class="stats reveal">
+        <div class="stat"><b data-count="8">8</b><span class="label">Lifting platforms</span></div>
+        <div class="stat"><b data-count="1400" data-suffix=" m²">1400 m²</b><span class="label">Training floor</span></div>
+        <div class="stat"><b data-count="62">62</b><span class="label">Classes a week</span></div>
+        <div class="stat"><b data-count="11">11</b><span class="label">Certified coaches</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="programs">
+    <div class="wrap">
+      <div class="head reveal">
+        <div><p class="label">Programs</p><h2 style="margin-top:10px">Pick your plate</h2></div>
+        <p>Every class is tagged with a bumper-plate colour so you know how hard it hits before you walk in. Red is the heaviest day of your week. Green is the one that keeps you lifting for years.</p>
+      </div>
+      <div class="programs">
+        <article class="prog reveal">
+          <div class="disc" style="background:var(--p25)"><span>25</span></div>
+          <h3>Barbell Strength</h3>
+          <p>Squat, bench, deadlift and press on a 12-week linear block. Small groups of six, one coach per platform pair.</p>
+          <div class="meta"><span>60 min</span><span>Max 6</span></div>
+        </article>
+        <article class="prog reveal">
+          <div class="disc" style="background:var(--p20)"><span>20</span></div>
+          <h3>Engine</h3>
+          <p>Rower, ski erg and air bike intervals paced by heart-rate zone. Bring a towel. You will use it.</p>
+          <div class="meta"><span>45 min</span><span>Max 14</span></div>
+        </article>
+        <article class="prog reveal">
+          <div class="disc" style="background:var(--p15);color:#141821"><span>15</span></div>
+          <h3>Olympic Lifting</h3>
+          <p>Snatch and clean &amp; jerk technique from PVC pipe to competition weights. Coached by a national-level referee.</p>
+          <div class="meta"><span>75 min</span><span>Max 8</span></div>
+        </article>
+        <article class="prog reveal">
+          <div class="disc" style="background:var(--p10)"><span>10</span></div>
+          <h3>Mobility Lab</h3>
+          <p>Hips, thoracic spine and ankles. Slow tempo work, bands and kettlebells. The class your deadlift will thank you for.</p>
+          <div class="meta"><span>40 min</span><span>Max 16</span></div>
+        </article>
+      </div>
+      <div class="legend" aria-label="Intensity key">
+        <span><i style="background:var(--p25)"></i>25 kg · maximal</span>
+        <span><i style="background:var(--p20)"></i>20 kg · hard</span>
+        <span><i style="background:var(--p15)"></i>15 kg · technical</span>
+        <span><i style="background:var(--p10)"></i>10 kg · recovery</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="block dark" id="schedule">
+    <div class="wrap">
+      <div class="head">
+        <div><p class="label">Class schedule</p><h2 style="margin-top:10px">This week on the floor</h2></div>
+        <p>Open gym runs alongside every class. Booking opens 7 days ahead and closes 2 hours before start.</p>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Day of week" id="tabs"></div>
+      <div class="sched" id="sched" role="tabpanel" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="block" id="calculator">
+    <div class="wrap">
+      <div class="head reveal">
+        <div><p class="label">Plate math</p><h2 style="margin-top:10px">Load the bar</h2></div>
+        <p>Type your working weight and we'll tell you what goes on each side. Same plates we have on the floor: 25 down to 1.25 kg.</p>
+      </div>
+      <div class="calc">
+        <div class="panel">
+          <div class="field">
+            <label for="target">Target weight (kg)</label>
+            <div class="num">
+              <button type="button" id="minus" aria-label="Remove 2.5 kilograms">−</button>
+              <input id="target" type="number" inputmode="decimal" min="15" max="400" step="2.5" value="102.5">
+              <button type="button" id="plus" aria-label="Add 2.5 kilograms">+</button>
+            </div>
+            <input id="range" type="range" min="20" max="300" step="2.5" value="102.5" aria-label="Target weight slider">
+          </div>
+          <div class="field">
+            <span style="font-weight:600">Bar</span>
+            <div class="seg" id="barSeg" role="group" aria-label="Bar weight">
+              <button type="button" data-bar="20" aria-pressed="true">20 kg men's</button>
+              <button type="button" data-bar="15" aria-pressed="false">15 kg women's</button>
+            </div>
+          </div>
+          <div class="field">
+            <span style="font-weight:600">Collars</span>
+            <div class="seg" id="colSeg" role="group" aria-label="Collars">
+              <button type="button" data-col="0" aria-pressed="true">Spring (0 kg)</button>
+              <button type="button" data-col="2.5" aria-pressed="false">Comp (2.5 kg)</button>
+            </div>
+          </div>
+        </div>
+        <div class="out">
+          <div class="calc-bar" id="calcBar" aria-hidden="true">
+            <div class="shaft"></div>
+            <div class="stack l" id="stackL"></div>
+            <div class="stack r" id="stackR"></div>
+          </div>
+          <div><p class="label">Per side</p><div class="breakdown" id="breakdown" style="margin-top:10px"></div></div>
+          <div class="totals" id="totals"></div>
+          <p class="note" id="calcNote"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="coaches" style="padding-top:0">
+    <div class="wrap">
+      <div class="head reveal">
+        <div><p class="label">Coaches</p><h2 style="margin-top:10px">People who'll spot you</h2></div>
+        <p>Every coach programs, coaches and still trains here. Ask them about their last meet.</p>
+      </div>
+      <div class="coaches">
+        <article class="coach-card reveal">
+          <div class="avatar"><canvas data-seed="1" data-color="--p25"></canvas><span class="init">HM</span></div>
+          <h3>Hana Mesfin</h3>
+          <p class="pr">Head coach · Deadlift 210 kg @ 69 kg bw</p>
+          <ul><li>Barbell Strength</li><li>Powerlifting meets</li></ul>
+        </article>
+        <article class="coach-card reveal">
+          <div class="avatar"><canvas data-seed="2" data-color="--p15"></canvas><span class="init">DO</span></div>
+          <h3>Daniel Okafor</h3>
+          <p class="pr">Olympic lifting · Clean &amp; jerk 165 kg</p>
+          <ul><li>Olympic Lifting</li><li>Youth program</li></ul>
+        </article>
+        <article class="coach-card reveal">
+          <div class="avatar"><canvas data-seed="3" data-color="--p10"></canvas><span class="init">SL</span></div>
+          <h3>Sofia Lindqvist</h3>
+          <p class="pr">Physiotherapist · 2k row 7:12</p>
+          <ul><li>Mobility Lab</li><li>Engine</li><li>Return to training</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="pricing" style="padding-top:0">
+    <div class="wrap">
+      <div class="head reveal">
+        <div><p class="label">Membership</p><h2 style="margin-top:10px">No joining fee</h2></div>
+        <p>Monthly, cancel with 30 days' notice. Students and first responders get 20% off any plan.</p>
+      </div>
+      <div class="prices">
+        <article class="price reveal">
+          <p class="label">Open Gym</p>
+          <div class="amt">$49<small> / month</small></div>
+          <ul><li>All opening hours, 05:00–23:00</li><li>Platform booking up to 3 days ahead</li><li>Locker and towel service</li></ul>
+          <a class="btn ghost" href="#join">Choose Open Gym</a>
+        </article>
+        <article class="price feat reveal">
+          <span class="tag">Most members</span>
+          <p class="label">Classes Unlimited</p>
+          <div class="amt">$89<small> / month</small></div>
+          <ul><li>Everything in Open Gym</li><li>Unlimited coached classes</li><li>Quarterly strength testing day</li><li>Program in the Northbar app</li></ul>
+          <a class="btn" href="#join">Choose Unlimited</a>
+        </article>
+        <article class="price reveal">
+          <p class="label">Personal Coaching</p>
+          <div class="amt">$190<small> / month</small></div>
+          <ul><li>Everything in Unlimited</li><li>4 one-to-one sessions a month</li><li>Individual program, reviewed weekly</li><li>Meet day handling</li></ul>
+          <a class="btn ghost" href="#join">Choose Coaching</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block dark" id="join">
+    <div class="wrap join">
+      <div>
+        <p class="label">Free session</p>
+        <h2 style="margin-top:10px">Come lift with us</h2>
+        <p style="margin-top:16px;max-width:42ch;opacity:.8">One hour with a coach: a movement screen, your first squat and deadlift session, and a plan for the next four weeks.</p>
+        <form id="joinForm" style="margin-top:28px" novalidate>
+          <div class="row2">
+            <label for="fname">Name<input id="fname" name="fname" autocomplete="name" required></label>
+            <label for="femail">Email<input id="femail" name="femail" type="email" autocomplete="email" required></label>
+          </div>
+          <div class="row2">
+            <label for="fprog">Interested in
+              <select id="fprog" name="fprog">
+                <option>Barbell Strength</option><option>Engine</option><option>Olympic Lifting</option><option>Mobility Lab</option><option>Not sure yet</option>
+              </select>
+            </label>
+            <label for="ftime">Best time
+              <select id="ftime" name="ftime">
+                <option>Early (05:30–08:00)</option><option>Midday (11:00–14:00)</option><option>Evening (17:00–20:00)</option>
+              </select>
+            </label>
+          </div>
+          <button class="btn" type="submit">Request my free session <span class="arr">→</span></button>
+          <p class="done" id="formMsg" hidden></p>
+        </form>
+      </div>
+      <div class="visit">
+        <p class="label">Visit</p>
+        <dl>
+          <dt>Address</dt><dd>48 Foundry Lane, Unit 3<br>Ground floor, parking at rear</dd>
+          <dt>Mon–Fri</dt><dd>05:00 – 23:00</dd>
+          <dt>Sat</dt><dd>07:00 – 20:00</dd>
+          <dt>Sun</dt><dd>08:00 – 18:00</dd>
+          <dt>Phone</dt><dd>(555) 014-2290</dd>
+          <dt>Email</dt><dd>hello@northbar.example</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Northbar Strength Club</span>
+    <span>Chalk allowed. Drop the bar, not the plates.</span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const PLATE = {25:'var(--p25)',20:'var(--p20)',15:'var(--p15)',10:'var(--p10)',5:'var(--p5)',2.5:'var(--p25s)',1.25:'var(--p25s)'};
+
+  /* ticker */
+  const prs = [
+    ['Selam T.','Back squat','140 kg','--p25'],['Marco R.','Snatch','92 kg','--p15'],['Ayana K.','2k row','7:38','--p20'],
+    ['Ben W.','Deadlift','250 kg','--p25'],['Lia M.','Clean & jerk','85 kg','--p15'],['Yonas A.','Strict press','70 kg','--p20'],
+    ['Priya S.','Bench press','82.5 kg','--p25'],['Tom H.','Pistol squat','first rep','--p10']
+  ];
+  const html = prs.map(([n,l,v,c]) => `<span><i style="background:var(${c})"></i>${l} ${v}<em>${n} · new PR</em></span>`).join('');
+  document.getElementById('ticker').innerHTML = html + html;
+
+  /* open status */
+  const now = new Date(), d = now.getDay(), h = now.getHours() + now.getMinutes()/60;
+  const hours = d===0 ? [8,18] : d===6 ? [7,20] : [5,23];
+  const fmt = x => String(x).padStart(2,'0') + ':00';
+  const open = h >= hours[0] && h < hours[1];
+  document.getElementById('openNow').textContent = (open ? 'Open now · closes ' + fmt(hours[1]) : 'Closed now · opens ' + fmt(hours[0]));
+  if (!open) document.querySelector('.pulse').style.background = 'var(--p25)';
+
+  /* counters */
+  if (!reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return; io.unobserve(e.target);
+      const el = e.target, end = +el.dataset.count, suf = el.dataset.suffix || '', t0 = performance.now();
+      const tick = t => { const p = Math.min(1,(t-t0)/1100), v = Math.round(end*(1-Math.pow(1-p,3)));
+        el.textContent = v + suf; if (p<1) requestAnimationFrame(tick); };
+      requestAnimationFrame(tick);
+    }), {threshold:.6});
+    document.querySelectorAll('[data-count]').forEach(el => io.observe(el));
+  }
+
+  /* schedule */
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const C = {S:['Barbell Strength','--p25','25 · maximal'],E:['Engine','--p20','20 · hard'],O:['Olympic Lifting','--p15','15 · technical'],M:['Mobility Lab','--p10','10 · recovery']};
+  const plan = {
+    Mon:[['05:30','S','Hana M.'],['07:00','E','Sofia L.'],['12:15','M','Sofia L.'],['17:30','S','Hana M.'],['19:00','O','Daniel O.']],
+    Tue:[['05:30','E','Sofia L.'],['07:00','O','Daniel O.'],['12:15','S','Hana M.'],['18:00','E','Sofia L.'],['19:15','M','Sofia L.']],
+    Wed:[['05:30','S','Hana M.'],['12:15','E','Sofia L.'],['17:30','O','Daniel O.'],['19:00','S','Hana M.']],
+    Thu:[['05:30','E','Sofia L.'],['07:00','M','Sofia L.'],['12:15','O','Daniel O.'],['18:00','S','Hana M.'],['19:15','E','Sofia L.']],
+    Fri:[['05:30','S','Hana M.'],['07:00','E','Sofia L.'],['17:00','O','Daniel O.'],['18:30','M','Sofia L.']],
+    Sat:[['08:00','S','Hana M.'],['09:30','O','Daniel O.'],['11:00','E','Sofia L.']],
+    Sun:[['09:00','M','Sofia L.'],['10:30','E','Sofia L.']]
+  };
+  const tabs = document.getElementById('tabs'), sched = document.getElementById('sched');
+  const today = days[(d+6)%7];
+  function show(day){
+    tabs.querySelectorAll('button').forEach(b => b.setAttribute('aria-selected', b.dataset.day===day));
+    sched.innerHTML = plan[day].map(([t,k,coach],i) => `<div class="slot" style="animation-delay:${i*60}ms">
+      <time>${t}</time><strong>${C[k][0]}</strong><span class="coach">${coach}</span>
+      <span class="chip"><i style="background:var(${C[k][1]})"></i>${C[k][2]}</span></div>`).join('');
+  }
+  days.forEach(day => {
+    const b = document.createElement('button');
+    b.type='button'; b.role='tab'; b.dataset.day=day; b.textContent = day===today ? day+' · today' : day;
+    b.onclick = () => show(day); tabs.appendChild(b);
+  });
+  tabs.addEventListener('keydown', e => {
+    if (!['ArrowLeft','ArrowRight'].includes(e.key)) return;
+    const bs=[...tabs.children], i=bs.indexOf(document.activeElement); if(i<0) return;
+    const n=bs[(i+(e.key==='ArrowRight'?1:-1)+bs.length)%bs.length]; n.focus(); n.click();
+  });
+  show(today);
+
+  /* plate calculator */
+  const target=document.getElementById('target'), range=document.getElementById('range');
+  let bar=20, collar=0;
+  const sizes=[25,20,15,10,5,2.5,1.25];
+  const H={25:150,20:150,15:150,10:150,5:96,2.5:74,1.25:60}, W={25:26,20:22,15:18,10:15,5:12,2.5:9,1.25:7};
+  function calc(){
+    let t=parseFloat(target.value); if(!isFinite(t)) t=bar;
+    let side=(t-bar-collar*2)/2, rem=side; const used=[];
+    const L=document.getElementById('stackL'), R=document.getElementById('stackR');
+    const note=document.getElementById('calcNote');
+    if(side<0){ L.innerHTML=R.innerHTML=''; document.getElementById('breakdown').innerHTML='';
+      note.textContent=`That's lighter than the bar${collar?' and collars':''} (${bar+collar*2} kg). Try a lighter bar or a technique PVC.`;
+      document.getElementById('totals').innerHTML=''; return; }
+    for(const s of sizes){ while(rem>=s-1e-9){ used.push(s); rem-=s; } }
+    rem=Math.round(rem*100)/100;
+    const loaded=bar+collar*2+used.reduce((a,b)=>a+b,0)*2;
+    const plates=used.map((s,i)=>`<div class="cplate" style="height:${H[s]}px;width:${W[s]}px;background:${PLATE[s]};animation-delay:${i*50}ms"></div>`).join('')+(collar?'<div class="collar"></div>':'');
+    L.innerHTML=plates; R.innerHTML=plates;
+    const counts={}; used.forEach(s=>counts[s]=(counts[s]||0)+1);
+    document.getElementById('breakdown').innerHTML = used.length ? Object.entries(counts).sort((a,b)=>b[0]-a[0])
+      .map(([s,n])=>`<span class="pill"><i style="background:${PLATE[s]}"></i>${n} × ${s} kg</span>`).join('') : '<span class="pill">Empty bar</span>';
+    document.getElementById('totals').innerHTML = `<span>Bar <b>${bar} kg</b></span><span>Collars <b>${collar*2} kg</b></span><span>Each side <b>${(loaded-bar-collar*2)/2} kg</b></span><span>Total <b>${loaded} kg</b></span>`;
+    note.textContent = rem>0 ? `Closest we can load is ${loaded} kg. The smallest plate on the floor is 1.25 kg, so totals move in 2.5 kg steps.` : 'Loaded exactly. Heaviest plates go on first, collars last.';
+  }
+  const set=v=>{ v=Math.max(15,Math.min(400,v)); target.value=v; range.value=v; calc(); };
+  target.addEventListener('input',()=>{ range.value=target.value; calc(); });
+  range.addEventListener('input',()=>{ target.value=range.value; calc(); });
+  document.getElementById('plus').onclick=()=>set((parseFloat(target.value)||0)+2.5);
+  document.getElementById('minus').onclick=()=>set((parseFloat(target.value)||0)-2.5);
+  const seg=(id,attr,fn)=>document.getElementById(id).addEventListener('click',e=>{
+    const b=e.target.closest('button'); if(!b) return;
+    e.currentTarget.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b)); fn(parseFloat(b.dataset[attr])); calc();
+  });
+  seg('barSeg','bar',v=>bar=v); seg('colSeg','col',v=>collar=v);
+  calc();
+
+  /* coach canvases: animated chalk-dust motion lines */
+  const canv=[...document.querySelectorAll('.avatar canvas')];
+  function draw(t){
+    canv.forEach(c=>{
+      const r=c.getBoundingClientRect(), dpr=devicePixelRatio||1;
+      if(c.width!==Math.round(r.width*dpr)){c.width=Math.round(r.width*dpr);c.height=Math.round(r.height*dpr);}
+      const g=c.getContext('2d'), w=c.width, h=c.height, seed=+c.dataset.seed;
+      g.clearRect(0,0,w,h);
+      const col=css(c.dataset.color), line=css('--line'), fg=css('--muted');
+      for(let i=0;i<14;i++){
+        g.beginPath(); g.strokeStyle=i%5===0?col:line; g.lineWidth=(i%5===0?3:1.2)*dpr;
+        for(let x=0;x<=w;x+=6*dpr){
+          const y=h*(.12+i*.06)+Math.sin(x/(60*dpr)+t/900*(1+seed*.15)+i*.6)*h*.035*(1+(i%3));
+          x?g.lineTo(x,y):g.moveTo(x,y);
+        }
+        g.stroke();
+      }
+      g.fillStyle=col; const cx=w*(.55+.25*Math.sin(t/1400+seed)); g.beginPath(); g.arc(cx,h*.32,h*.11,0,7); g.fill();
+      g.strokeStyle=fg; g.lineWidth=2*dpr; g.beginPath(); g.arc(cx,h*.32,h*.11,0,7); g.stroke();
+    });
+    if(!reduce) requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+
+  /* full-page moving background: drifting bumper plates + chalk dust, parallax on scroll, pushed by the pointer */
+  const bg=document.getElementById('bg'), bx=bg.getContext('2d');
+  let BW=0,BH=0,dpr=1,pal={},mx=-9999,my=-9999,frame=0;
+  const readPal=()=>{pal={dust:css('--muted'),c:[css('--p25'),css('--p20'),css('--p15'),css('--p10')],line:css('--line')};};
+  readPal();
+  const sizeBg=()=>{dpr=Math.min(devicePixelRatio||1,2);BW=innerWidth;BH=innerHeight;bg.width=BW*dpr;bg.height=BH*dpr;bx.setTransform(dpr,0,0,dpr,0,0);};
+  sizeBg(); addEventListener('resize',sizeBg);
+  addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;});
+  addEventListener('pointerleave',()=>{mx=my=-9999;});
+  const rnd=(a,b)=>a+Math.random()*(b-a);
+  const dust=Array.from({length:Math.min(110,Math.round(innerWidth/10))},()=>({x:rnd(0,innerWidth),y:rnd(0,innerHeight),r:rnd(.6,2.4),vy:rnd(.15,.6),ph:rnd(0,6.3),vx:0,px:0,py:0}));
+  const plates=Array.from({length:7},(_,i)=>({x:rnd(0,innerWidth),y:rnd(0,innerHeight*1.6),R:rnd(60,170),c:i%4,rot:rnd(0,6.3),vr:rnd(-.004,.004)||.002,vx:rnd(-.25,.25),vy:rnd(-.18,-.05),depth:rnd(.15,.5)}));
+  function bgDraw(t){
+    if(++frame%90===0) readPal();
+    bx.clearRect(0,0,BW,BH);
+    const sy=scrollY;
+    for(const p of plates){
+      p.x+=p.vx; p.y+=p.vy; p.rot+=p.vr;
+      const span=BH*1.6+p.R*2;
+      if(p.x<-p.R) p.x=BW+p.R; if(p.x>BW+p.R) p.x=-p.R;
+      let y=((p.y-sy*p.depth)%span+span)%span-p.R;
+      bx.save(); bx.translate(p.x,y); bx.rotate(p.rot);
+      bx.globalAlpha=.13; bx.fillStyle=pal.c[p.c];
+      bx.beginPath(); bx.arc(0,0,p.R,0,7); bx.arc(0,0,p.R*.16,0,7,true); bx.fill('evenodd');
+      bx.globalAlpha=.28; bx.strokeStyle=pal.c[p.c]; bx.lineWidth=2;
+      bx.beginPath(); bx.arc(0,0,p.R*.72,0,7); bx.stroke();
+      for(let k=0;k<6;k++){const a=k*Math.PI/3; bx.beginPath(); bx.moveTo(Math.cos(a)*p.R*.2,Math.sin(a)*p.R*.2); bx.lineTo(Math.cos(a)*p.R*.68,Math.sin(a)*p.R*.68); bx.stroke();}
+      bx.restore();
+    }
+    bx.globalAlpha=.55; bx.fillStyle=pal.dust;
+    for(const d of dust){
+      d.y-=d.vy; d.x+=Math.sin(t/1600+d.ph)*.35;
+      const dx=d.x-mx, dy=d.y-my, dd=dx*dx+dy*dy;
+      if(dd<14400){const f=(120-Math.sqrt(dd))/120*2.2; d.vx+=dx/Math.sqrt(dd+1)*f; d.py+=dy/Math.sqrt(dd+1)*f;}
+      d.vx*=.92; d.py*=.92; d.x+=d.vx; d.y+=d.py;
+      if(d.y<-5){d.y=BH+5;d.x=rnd(0,BW);} if(d.x<-5)d.x=BW+5; if(d.x>BW+5)d.x=-5;
+      bx.beginPath(); bx.arc(d.x,d.y,d.r,0,7); bx.fill();
+    }
+    bx.globalAlpha=1;
+    if(!reduce) requestAnimationFrame(bgDraw);
+  }
+  requestAnimationFrame(bgDraw);
+
+  /* form */
+  document.getElementById('joinForm').addEventListener('submit',e=>{
+    e.preventDefault();
+    const f=e.target, msg=document.getElementById('formMsg');
+    const name=f.fname.value.trim(), email=f.femail.value.trim();
+    msg.hidden=false;
+    if(!name){ msg.textContent='Add your name so the coach knows who to expect.'; f.fname.focus(); return; }
+    if(!/^\S+@\S+\.\S+$/.test(email)){ msg.textContent='Enter an email like name@example.com so we can confirm your time.'; f.femail.focus(); return; }
+    msg.textContent=`Thanks, ${name}. This is a demo page, so nothing was sent. On the live site you'd get a ${f.fprog.value} session offer for ${f.ftime.value.split(' ')[0].toLowerCase()} slots at ${email}.`;
+  });
+})();
+</script>
+</body>
+</html>
